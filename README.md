@@ -1,4 +1,4 @@
-# 💇‍♀️ SGA – Sistema de Gerenciamento e Agendamento para Salão
+# SGA – Sistema de Gerenciamento e Agendamento para Salão de Beleza
 
 ## 📌 Descrição
 
