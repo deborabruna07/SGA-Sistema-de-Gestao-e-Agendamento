@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Agendamento - Salão</title>
+</head>
+<body>
+
+<h1>Sistema de Agendamento</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    <ul>
+    {% for category, message in messages %}
+        <li style="color: {% if category == 'erro' %}red{% else %}green{% endif %};">
+        {{ message }}
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}
+{% endwith %}
+
+<h2>Agendar Serviço</h2>
+<form method="post" action="/agendar">
+    <input type="text" name="cliente" placeholder="Nome do cliente" required><br><br>
+
+    <select name="servico" required>
+        <option value="">Selecione o serviço</option>
+        {% for s in servicos %}
+            <option value="{{ s[0] }}">{{ s[1] }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <input type="date" name="data" required><br><br>
+    <input type="time" name="hora" required><br><br>
+
+    <button type="submit">Agendar</button>
+</form>
+
+<hr>
+
+<h2>Cadastrar Serviço</h2>
+<form method="post" action="/servico">
+    <input type="text" name="nome" placeholder="Nome do serviço" required><br><br>
+    <input type="number" name="ativo1" placeholder="Tempo ativo 1 (min)" required><br><br>
+    <input type="number" name="espera" placeholder="Tempo de espera (min)" value="0" required><br><br>
+    <input type="number" name="ativo2" placeholder="Tempo ativo 2 (min)" value="0" required><br><br>
+
+    <button type="submit">Cadastrar Serviço</button>
+</form>
+
+</body>
+</html>
