@@ -1,0 +1,136 @@
+/* RESET */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+}
+
+/* CONTAINER */
+.admin-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* TÍTULOS */
+.admin-container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2e2e2e;
+}
+
+.admin-container h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* CARDS */
+.admin-card {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* FORMULÁRIO */
+.admin-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.admin-form input {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* BOTÕES */
+.btn-admin {
+    grid-column: 1 / -1;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #4CAF50;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.btn-admin:hover {
+    background: #43a047;
+}
+
+.btn-danger {
+    background: #e53935;
+}
+
+.btn-danger:hover {
+    background: #c62828;
+}
+
+/* TABELA */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th {
+    background: #4CAF50;
+    color: white;
+    padding: 12px;
+}
+
+.admin-table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+/* LINKS */
+.link-cancelar {
+    color: #e53935;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link-cancelar:hover {
+    text-decoration: underline;
+}
+
+/* ÁREA DE PERIGO */
+.perigo {
+    border: 2px solid #e53935;
+    background: #fff5f5;
+    text-align: center;
+}
+
+.alerta-admin {
+    color: #b71c1c;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* MENSAGEM ADMIN */
+.msg-admin {
+    text-align: center;
+    color: #2e7d32;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.link-remover {
+    color: #e53935;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.link-remover:hover {
+    text-decoration: underline;
+}

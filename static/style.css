@@ -1,0 +1,192 @@
+/* ================================
+CONFIGURAÇÕES GERAIS
+================================ */
+html, body {
+    min-height: 100%;
+    overflow-y: auto;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* ================================
+CONTAINER PRINCIPAL
+================================ */
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* ================================
+TÍTULOS
+================================ */
+h1, h2, h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* ================================
+FORMULÁRIOS
+================================ */
+form {
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+form input,
+form select {
+    padding: 8px;
+    flex: 1;
+    min-width: 180px;
+}
+
+/* Formulário de agendamento */
+.form-agendamento {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-agendamento .linha {
+    display: flex;
+    gap: 15px;
+}
+
+.form-agendamento input,
+.form-agendamento select {
+    padding: 10px;
+    width: 100%;
+}
+
+/* ================================
+BOTÕES
+================================ */
+button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #43a047;
+}
+
+.btn-principal {
+    align-self: flex-start;
+    padding: 10px 20px;
+}
+
+.cancelar {
+    background-color: #e53935;
+}
+
+.cancelar:hover {
+    background-color: #c62828;
+}
+
+/* ================================
+MENSAGENS
+================================ */
+.sucesso {
+    color: green;
+    font-weight: bold;
+    text-align: center;
+}
+
+.erro {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* ================================
+TABELAS
+================================ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+table th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+}
+
+table td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+/* ================================
+CALENDÁRIO (FULLCALENDAR)
+================================ */
+#calendario-container {
+    margin-top: 10px;
+}
+
+#calendar {
+    max-width: 100%;
+    margin: 20px auto;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    min-height: 650px;
+}
+
+.fc {
+    height: auto !important;
+}
+
+.fc-scroller {
+    overflow: visible !important;
+}
+
+/* Dia selecionado */
+.fc-day.selecionado {
+    background-color: #c8e6c9 !important;
+}
+
+/* ================================
+HORÁRIOS DISPONÍVEIS
+================================ */
+#horarios-container {
+    display: none;
+}
+
+.horario-btn {
+    margin: 5px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #2196F3;
+    color: white;
+}
+
+.horario-btn:hover {
+    background-color: #1976D2;
+}
+
+.horario-btn.ativo {
+    background-color: #4CAF50;
+    color: white;
+}

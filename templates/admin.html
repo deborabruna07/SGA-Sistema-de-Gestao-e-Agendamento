@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Área do Administrador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+
+<div class="admin-container">
+
+    <h1>Área do Administrador</h1>
+
+   <div class="admin-card">
+    <h2>Cadastrar Serviço</h2>
+
+    <form method="post" action="/servico" class="admin-form">
+        <input type="text" name="nome" placeholder="Nome do serviço" required>
+        <input type="number" name="ativo1" placeholder="Tempo ativo 1 (min)" required>
+        <input type="number" name="espera" placeholder="Tempo de espera (min)" value="0" required>
+        <input type="number" name="ativo2" placeholder="Tempo ativo 2 (min)" value="0" required>
+
+        <button type="submit" class="btn-admin">
+            Cadastrar Serviço
+        </button>
+    </form>
+</div>
+
+<!-- LISTA DE SERVIÇOS -->
+<div class="admin-card">
+    <h2>Serviços Cadastrados</h2>
+
+    {% if servicos %}
+        <table class="admin-table">
+            <tr>
+                <th>Serviço</th>
+                <th>Ação</th>
+            </tr>
+
+            {% for s in servicos %}
+            <tr>
+                <td>{{ s[1] }}</td>
+                <td>
+                    <a href="/remover-servico/{{ s[0] }}"
+                    onclick="return confirm('Tem certeza que deseja remover este serviço?')"
+                    class="link-remover">
+                        ❌ Remover
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Nenhum serviço cadastrado.</p>
+    {% endif %}
+</div>
+
+    <!-- AGENDAMENTOS -->
+    <div class="admin-card">
+        <h2>Agendamentos</h2>
+
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Serviço</th>
+                    <th>Data</th>
+                    <th>Início</th>
+                    <th>Fim</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in agendamentos %}
+                <tr>
+                    <td>{{ a[1] }}</td>
+                    <td>{{ a[2] }}</td>
+                    <td>{{ a[3] }}</td>
+                    <td>{{ a[4] }}</td>
+                    <td>{{ a[5] }}</td>
+                    <td>{{ a[6] }}</td>
+                    <td>
+                        {% if a[6] == "Confirmado" %}
+                            <a href="/cancelar/{{ a[0] }}" class="link-cancelar">
+                                Cancelar
+                            </a>
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- LIMPAR TUDO -->
+    <div class="admin-card perigo">
+        <div class="alerta-admin">
+            ⚠️ Atenção: esta ação apagará TODOS os agendamentos do sistema.
+        </div>
+
+        <a href="/limpar-tudo"
+        onclick="return confirm('⚠️ Tem certeza que deseja apagar TODOS os agendamentos?')">
+            <button class="btn-admin btn-danger">
+                🧹 Limpar todos os agendamentos
+            </button>
+        </a>
+    </div>
+
+    <!-- MENSAGENS (SÓ ADMIN) -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for categoria, mensagem in messages %}
+            {% if categoria == "admin" %}
+                <p class="msg-admin">{{ mensagem }}</p>
+            {% endif %}
+        {% endfor %}
+    {% endwith %}
+
+</div>
+
+</body>
+</html>

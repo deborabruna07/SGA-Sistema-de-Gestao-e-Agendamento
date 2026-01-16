@@ -3,51 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Sistema de Agendamento - Salão</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 </head>
 <body>
 
-<h1>Sistema de Agendamento</h1>
+<div class="container">
 
 {% with messages = get_flashed_messages(with_categories=true) %}
 {% if messages %}
-    <ul>
-    {% for category, message in messages %}
-        <li style="color: {% if category == 'erro' %}red{% else %}green{% endif %};">
-        {{ message }}
-        </li>
+    {% for categoria, mensagem in messages %}
+        <p class="{{ categoria }}">{{ mensagem }}</p>
     {% endfor %}
-    </ul>
 {% endif %}
 {% endwith %}
 
+<h1>Sistema de Agendamento</h1>
+
 <h2>Agendar Serviço</h2>
-<form method="post" action="/agendar">
-    <input type="text" name="cliente" placeholder="Nome do cliente" required><br><br>
 
-    <select name="servico" required>
-        <option value="">Selecione o serviço</option>
-        {% for s in servicos %}
-            <option value="{{ s[0] }}">{{ s[1] }}</option>
-        {% endfor %}
-    </select><br><br>
+<form method="post" action="/agendar" class="form-agendamento">
 
-    <input type="date" name="data" required><br><br>
-    <input type="time" name="hora" required><br><br>
+    <!-- CAMPOS OCULTOS (OBRIGATÓRIO) -->
+    <input type="hidden" name="data" id="dataSelecionada">
+    <input type="hidden" name="hora" id="horaSelecionada">
 
-    <button type="submit">Agendar</button>
+    <div class="linha">
+        <input type="text" name="cliente" placeholder="Nome do cliente" required>
+
+        <!-- ID CORRETO -->
+        <select name="servico" id="servico" required>
+            <option value="">Selecione o serviço</option>
+            {% for s in servicos %}
+                <option value="{{ s[0] }}">{{ s[1] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- CALENDÁRIO (SEMPRE VISÍVEL) -->
+    <div id="calendario-container">
+        <h3>Escolha a data</h3>
+        <div id="calendar"></div>
+    </div>
+
+    <!-- HORÁRIOS -->
+    <div id="horarios-container" style="display:none">
+        <h3>Horários disponíveis</h3>
+        <div id="horarios"></div>
+    </div>
+
+    <button type="submit" class="btn-principal">Agendar</button>
 </form>
 
-<hr>
+</div>
 
-<h2>Cadastrar Serviço</h2>
-<form method="post" action="/servico">
-    <input type="text" name="nome" placeholder="Nome do serviço" required><br><br>
-    <input type="number" name="ativo1" placeholder="Tempo ativo 1 (min)" required><br><br>
-    <input type="number" name="espera" placeholder="Tempo de espera (min)" value="0" required><br><br>
-    <input type="number" name="ativo2" placeholder="Tempo ativo 2 (min)" value="0" required><br><br>
-
-    <button type="submit">Cadastrar Serviço</button>
-</form>
-
+<script src="{{ url_for('static', filename='calendar.js') }}"></script>
 </body>
 </html>
