@@ -11,14 +11,14 @@
 
     <h1>Área do Administrador</h1>
 
-   <div class="admin-card">
+<div class="admin-card">
     <h2>Cadastrar Serviço</h2>
 
-    <form method="post" action="/servico" class="admin-form">
+    <form id="formServico" class="form-servico">
         <input type="text" name="nome" placeholder="Nome do serviço" required>
-        <input type="number" name="ativo1" placeholder="Tempo ativo 1 (min)" required>
-        <input type="number" name="espera" placeholder="Tempo de espera (min)" value="0" required>
-        <input type="number" name="ativo2" placeholder="Tempo ativo 2 (min)" value="0" required>
+        <input type="number" name="ativo1" placeholder="Tempo ativo 1 (min)">
+        <input type="number" name="espera" placeholder="Tempo de espera (min)">
+        <input type="number" name="ativo2" placeholder="Tempo ativo 2 (min)">
 
         <button type="submit" class="btn-admin">
             Cadastrar Serviço
@@ -27,32 +27,35 @@
 </div>
 
 <!-- LISTA DE SERVIÇOS -->
+
 <div class="admin-card">
     <h2>Serviços Cadastrados</h2>
 
-    {% if servicos %}
-        <table class="admin-table">
-            <tr>
-                <th>Serviço</th>
-                <th>Ação</th>
-            </tr>
+    <div id="lista-servicos">
+        {% if servicos %}
+            <table class="admin-table" id="tabela-servicos">
+                <tr>
+                    <th>Serviço</th>
+                    <th>Ação</th>
+                </tr>
 
-            {% for s in servicos %}
-            <tr>
-                <td>{{ s[1] }}</td>
-                <td>
-                    <a href="/remover-servico/{{ s[0] }}"
-                    onclick="return confirm('Tem certeza que deseja remover este serviço?')"
-                    class="link-remover">
-                        ❌ Remover
-                    </a>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <p>Nenhum serviço cadastrado.</p>
-    {% endif %}
+                {% for s in servicos %}
+                <tr>
+                    <td>{{ s[1] }}</td>
+                    <td>
+                        <a href="/remover-servico/{{ s[0] }}"
+                        onclick="return confirm('Tem certeza que deseja remover este serviço?')"
+                        class="link-remover">
+                            ❌ Remover
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p id="nenhum-servico">Nenhum serviço cadastrado.</p>
+        {% endif %}
+    </div>
 </div>
 
     <!-- AGENDAMENTOS -->
@@ -119,6 +122,6 @@
     {% endwith %}
 
 </div>
-
+<script src="{{ url_for('static', filename='admin.js') }}"></script>
 </body>
 </html>

@@ -162,10 +162,15 @@ def admin():
 
 @app.route("/servico", methods=["POST"])
 def cadastrar_servico():
-    nome = request.form["nome"]
-    ativo1 = int(request.form["ativo1"])
-    espera = int(request.form["espera"])
-    ativo2 = int(request.form["ativo2"])
+    nome = request.form.get("nome")
+
+    ativo1 = request.form.get("ativo1") or 0
+    espera = request.form.get("espera") or 0
+    ativo2 = request.form.get("ativo2") or 0
+
+    ativo1 = int(ativo1)
+    espera = int(espera)
+    ativo2 = int(ativo2)
 
     conn = conectar_db()
     cursor = conn.cursor()
@@ -176,7 +181,26 @@ def cadastrar_servico():
     conn.commit()
     conn.close()
 
-    return redirect("/")
+    return jsonify(sucesso=True)
+
+@app.route("/servico", methods=["GET"])
+def listar_servicos():
+    conn = conectar_db()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT id, nome FROM servicos")
+    rows = cursor.fetchall()
+    conn.close()
+
+    servicos = []
+    for r in rows:
+        servicos.append({
+            "id": r[0],
+            "nome": r[1]
+        })
+
+    return jsonify(servicos)
+
 
 @app.route("/agendar", methods=["POST"])
 def agendar():
@@ -346,6 +370,18 @@ def remover_servico(id):
 
     flash("Serviço removido com sucesso.", "admin")
     return redirect("/admin")
+
+@app.route("/servico/<int:id>", methods=["DELETE"])
+def excluir_servico(id):
+    conn = conectar_db()
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM servicos WHERE id = ?", (id,))
+    conn.commit()
+    conn.close()
+
+    return jsonify(sucesso=True)
+
 
 # -----------------------
 # EXECUÇÃO

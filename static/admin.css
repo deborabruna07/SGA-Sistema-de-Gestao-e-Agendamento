@@ -134,3 +134,24 @@ body {
 .link-remover:hover {
     text-decoration: underline;
 }
+
+.form-servico {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr; /* nome maior, tempos menores */
+    gap: 10px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.form-servico input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.form-servico button {
+    grid-column: span 4;   /* botão embaixo */
+    max-width: 250px;
+    margin: 10px auto 0;
+}
+
