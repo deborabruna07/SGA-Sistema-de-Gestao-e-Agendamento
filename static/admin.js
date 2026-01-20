@@ -107,3 +107,12 @@ async function removerServico(id) {
         alert("Erro ao remover serviço");
     }
 }
+
+const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'dayGridMonth',
+    locale: 'pt-br',
+
+    validRange: {
+    start: new Date() // hoje
+    }
+});

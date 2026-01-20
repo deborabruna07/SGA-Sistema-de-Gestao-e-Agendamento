@@ -1,5 +1,5 @@
 /* ================================
-CONFIGURAÇÕES GERAIS
+   CONFIGURAÇÕES GERAIS
 ================================ */
 html, body {
     min-height: 100%;
@@ -7,186 +7,327 @@ html, body {
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f8;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f4f6f8;
     margin: 0;
     padding: 0;
     color: #333;
 }
 
 /* ================================
-CONTAINER PRINCIPAL
+   CONTAINER PRINCIPAL
 ================================ */
 .container {
     max-width: 1000px;
     margin: 30px auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.08);
 }
 
 /* ================================
-TÍTULOS
+   TÍTULOS
 ================================ */
 h1, h2, h3 {
     text-align: center;
-    color: #333;
-    margin-bottom: 15px;
+    color: #2e7d32;
+}
+
+h2 {
+    margin-bottom: 25px;
 }
 
 /* ================================
-FORMULÁRIOS
+   FORMULÁRIOS
 ================================ */
 form {
-    margin-bottom: 30px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-direction: column;
+    gap: 25px;
 }
 
 form input,
 form select {
-    padding: 8px;
-    flex: 1;
-    min-width: 180px;
+    padding: 12px 14px;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
 }
 
-/* Formulário de agendamento */
-.form-agendamento {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+form input:focus,
+form select:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76,175,80,.2);
 }
 
+/* Linha serviço + cliente */
 .form-agendamento .linha {
     display: flex;
-    gap: 15px;
+    justify-content: space-between; /* 👈 cria respiro real */
+    align-items: center;
+    width: 85%;
+    margin: 20px auto;
 }
 
-.form-agendamento input,
-.form-agendamento select {
-    padding: 10px;
-    width: 100%;
+.form-agendamento .linha input[type="text"] {
+    flex: 0.8;
+    margin-right: 40px; /* 👈 espaçamento VISÍVEL */
+}
+
+.form-agendamento .linha select {
+    flex: 0.5;
+}
+
+@media (max-width: 600px) {
+    .form-agendamento .linha {
+        flex-direction: column;
+    }
 }
 
 /* ================================
-BOTÕES
+   BOTÕES
 ================================ */
 button {
-    padding: 8px 16px;
-    background-color: #4CAF50;
-    color: white;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #4CAF50, #43a047);
+    color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
+    font-size: 15px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #43a047;
-}
-
-.btn-principal {
-    align-self: flex-start;
-    padding: 10px 20px;
-}
-
-.cancelar {
-    background-color: #e53935;
-}
-
-.cancelar:hover {
-    background-color: #c62828;
+    box-shadow: 0 6px 14px rgba(76,175,80,.35);
 }
 
 /* ================================
-MENSAGENS
+   CALENDÁRIO
 ================================ */
-.sucesso {
-    color: green;
-    font-weight: bold;
-    text-align: center;
-}
-
-.erro {
-    color: red;
-    font-weight: bold;
-    text-align: center;
-}
-
-/* ================================
-TABELAS
-================================ */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 30px;
-}
-
-table th {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-}
-
-table td {
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
-}
-
-/* ================================
-CALENDÁRIO (FULLCALENDAR)
-================================ */
-#calendario-container {
-    margin-top: 10px;
-}
-
+/* ===== CALENDÁRIO ===== */
 #calendar {
-    max-width: 100%;
-    margin: 20px auto;
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    min-height: 650px;
+    margin-top: 15px;
 }
 
-.fc {
-    height: auto !important;
+/* Célula padrão */
+.fc-daygrid-day {
+    position: relative;
+    cursor: pointer;
 }
 
-.fc-scroller {
-    overflow: visible !important;
+/* Número do dia */
+.fc-daygrid-day-number {
+    font-size: 14px;
+    padding: 6px;
+    color: #333;
 }
 
 /* Dia selecionado */
 .fc-day.selecionado {
-    background-color: #c8e6c9 !important;
+    background-color: #cfead1 !important;
+}
+
+/* Dia atual */
+.fc-day-today {
+    background-color: #fffbe6 !important;
+}
+
+/* ===== DIAS FECHADOS (DOM / SEG) ===== */
+.dia-fechado {
+    background: repeating-linear-gradient(
+        45deg,
+        #f4f4f4,
+        #f4f4f4 10px,
+        #eaeaea 10px,
+        #eaeaea 20px
+    ) !important;
+
+    cursor: not-allowed;
+}
+
+/* mantém o número visível */
+.dia-fechado .fc-daygrid-day-number {
+    color: #888;
+}
+
+/* badge "Fechado" */
+.dia-fechado::after {
+    content: "Fechado";
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #e74c3c;
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    pointer-events: none;
 }
 
 /* ================================
-HORÁRIOS DISPONÍVEIS
+   DIAS FORA DO MÊS
+================================ */
+.fc-day-other {
+    background-color: #f5f5f5 !important;
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+.fc-day-other .fc-daygrid-day-number {
+    color: #aaa;
+}
+
+/* ================================
+   DIAS FECHADOS (DOMINGO / SEGUNDA)
+================================ */
+.dia-fechado {
+    background: repeating-linear-gradient(
+        45deg,
+        #f4f4f4,
+        #f4f4f4 10px,
+        #eaeaea 10px,
+        #eaeaea 20px
+    ) !important;
+
+    opacity: 0.45;          /* 👈 transparência padrão */
+    cursor: not-allowed;
+}
+
+/* Número do dia continua NORMAL */
+.fc-daygrid-day.dia-fechado .fc-daygrid-day-number {
+    color: #555;
+}
+
+/* Texto "Fechado" */
+.fc-daygrid-day.dia-fechado::after {
+    content: "Fechado";
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-weight: bold;
+    color: #c62828;
+    background: rgba(255,255,255,0.95);
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+/* Datas passadas */
+.fc-day-past {
+    background-color: #fafafa;
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+/* Mantém número visível */
+.fc-day-past .fc-daygrid-day-number {
+    color: #777;
+}
+
+/* ================================
+   HORÁRIOS
 ================================ */
 #horarios-container {
     display: none;
 }
 
-.horario-btn {
-    margin: 5px;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #2196F3;
-    color: white;
+#horarios {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
 }
 
-.horario-btn:hover {
-    background-color: #1976D2;
+.horario-btn {
+    padding: 10px 16px;
+    border-radius: 20px;
+    background: #2196F3;
+    color: #fff;
+    border: none;
+    cursor: pointer;
 }
 
 .horario-btn.ativo {
-    background-color: #4CAF50;
-    color: white;
+    background: #4CAF50;
+}
+
+/* ================================
+   DADOS DO CLIENTE
+================================ */
+
+.dados-cliente {
+    max-width: 420px;     /* 👈 controla a largura da box */
+    margin: 30px auto;    /* centraliza */
+    padding: 25px;
+    border-radius: 12px;
+    background: #fbfffb;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* inputs menores */
+.dados-cliente input {
+    width: 90%;
+    max-width: 100%;      /* não estica além da box */
+    padding: 10px 12px;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* ===== BOTÃO CONFIRMAR ===== */
+.btn-principal {
+    width: 100%;
+    max-width: 150px;   /* 👈 tamanho do botão */
+    margin: 30px auto 0;
+    display: block;
+
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+/* ================================
+   POPUP
+================================ */
+.popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.popup-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+/* ===== TEXTO DE PRIVACIDADE ===== */
+.privacidade {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    margin-top: 12px;
+    font-size: 12.5px;
+    color: #555;
+
+    background: #f1f8f4;
+    padding: 8px 10px;
+    border-radius: 8px;
+
+    border-left: 4px solid #4CAF50;
+}
+
+.privacidade::before {
+    content: "🔒";
+    font-size: 14px;
 }

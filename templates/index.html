@@ -15,25 +15,29 @@
 {% with messages = get_flashed_messages(with_categories=true) %}
 {% if messages %}
     {% for categoria, mensagem in messages %}
-        <p class="{{ categoria }}">{{ mensagem }}</p>
+        {% if categoria == 'sucesso' %}
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    abrirPopup();
+                });
+            </script>
+        {% endif %}
     {% endfor %}
 {% endif %}
 {% endwith %}
 
 <h1>Sistema de Agendamento</h1>
-
 <h2>Agendar Serviço</h2>
 
 <form method="post" action="/agendar" class="form-agendamento">
 
-    <!-- CAMPOS OCULTOS (OBRIGATÓRIO) -->
+    <!-- CAMPOS OCULTOS -->
     <input type="hidden" name="data" id="dataSelecionada">
     <input type="hidden" name="hora" id="horaSelecionada">
 
     <div class="linha">
         <input type="text" name="cliente" placeholder="Nome do cliente" required>
 
-        <!-- ID CORRETO -->
         <select name="servico" id="servico" required>
             <option value="">Selecione o serviço</option>
             {% for s in servicos %}
@@ -42,11 +46,16 @@
         </select>
     </div>
 
-    <!-- CALENDÁRIO (SEMPRE VISÍVEL) -->
+    <!-- CALENDÁRIO -->
     <div id="calendario-container">
         <h3>Escolha a data</h3>
         <div id="calendar"></div>
     </div>
+
+    <div class="legenda-calendario">
+    <span class="legenda fechado"></span>
+</div>
+
 
     <!-- HORÁRIOS -->
     <div id="horarios-container" style="display:none">
@@ -54,11 +63,35 @@
         <div id="horarios"></div>
     </div>
 
-    <button type="submit" class="btn-principal">Agendar</button>
+    <!-- ✅ DADOS DO CLIENTE (AGORA NO LUGAR CERTO) -->
+    <div id="dados-cliente" style="display:none;" class="dados-cliente">
+        <h3>Dados para contato</h3>
+
+        <input type="text" id="nomeCliente" placeholder="Seu nome">
+        <input type="tel" id="telefoneCliente" placeholder="WhatsApp (ex: 83 9 9999-9999)">
+        <input type="email" id="emailCliente" placeholder="E-mail">
+
+        <p class="privacidade">
+    Seus dados são usados apenas para contato sobre este agendamento.
+</p>
+    </div>
+
+    <!-- BOTÃO FINAL -->
+    <button type="submit" class="btn-principal">Confirmar</button>
+
 </form>
 
 </div>
 
 <script src="{{ url_for('static', filename='calendar.js') }}"></script>
+<div id="popup-sucesso" class="popup">
+    <div class="popup-box">
+        <div class="popup-icon">✅</div>
+        <h3>Agendamento confirmado!</h3>
+        <p>Seu horário foi agendado com sucesso.</p>
+        <button onclick="fecharPopup()">OK</button>
+    </div>
+</div>
+
 </body>
 </html>
