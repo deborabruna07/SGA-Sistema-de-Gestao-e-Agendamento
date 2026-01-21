@@ -14,48 +14,48 @@ document.addEventListener("DOMContentLoaded", function () {
     const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: "dayGridMonth",
         locale: "pt-br",
+        firstDay: 0,
+        fixedWeekCount: true,
         height: "auto",
+        selectable: false,
 
-        /* 🔒 MARCAR DOMINGO E SEGUNDA COMO FECHADO */
-        dayCellDidMount: function(info) {
-    // ❌ ignora dias fora do mês atual
-    if (info.isOther) return;
-
-    const diaSemana = info.date.getDay(); // 0 = dom, 1 = seg
-    const dia = info.date.getDate();
-
-    info.el.setAttribute("data-dia", dia);
-
-    if (diaSemana === 0 || diaSemana === 1) {
-        info.el.classList.add("dia-fechado");
-    }
-},
+        /* 🔒 DOMINGO E SEGUNDA */
+        dayCellClassNames: function (arg) {
+            const dia = arg.date.getDay();
+            if (dia === 0 || dia === 1) {
+                return ["dia-fechado"];
+            }
+            return [];
+        },
 
         dateClick: function (info) {
+            const diaSemana = info.date.getDay();
+
             const hoje = new Date();
-            hoje.setHours(0, 0, 0, 0);
+            hoje.setHours(0,0,0,0);
 
-            const dataClicada = new Date(info.dateStr);
-            const diaSemana = dataClicada.getDay();
+            const dataClicada = new Date(info.date);
+            dataClicada.setHours(0,0,0,0);
 
-            /* 🚫 BLOQUEAR DOMINGO E SEGUNDA */
             if (diaSemana === 0 || diaSemana === 1) {
+                alert("❌ O salão não funciona aos domingos e segundas.");
                 return;
             }
 
-            if (dataClicada < hoje) {
-                alert("Não é possível agendar datas passadas.");
+            if (dataClicada <= hoje) {
+                alert("❌ Não é possível agendar para hoje ou datas anteriores.");
+                horariosContainer.style.display = "none";
                 return;
             }
 
-            document.querySelectorAll(".fc-day")
+            document.querySelectorAll(".fc-daygrid-day")
                 .forEach(d => d.classList.remove("selecionado"));
 
             info.dayEl.classList.add("selecionado");
 
             dataInput.value = info.dateStr;
-            dadosClienteDiv.style.display = "none";
             horaInput.value = "";
+            dadosClienteDiv.style.display = "none";
 
             if (servicoSelect.value) {
                 carregarHorarios(info.dateStr);
@@ -80,10 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function carregarHorarios(data) {
-        const servico = servicoSelect.value;
-        if (!servico) return;
-
-        fetch(`/horarios/${data}/${servico}`)
+        fetch(`/horarios/${data}/${servicoSelect.value}`)
             .then(res => res.json())
             .then(horarios => {
                 horariosDiv.innerHTML = "";
@@ -100,29 +97,26 @@ document.addEventListener("DOMContentLoaded", function () {
                     btn.innerText = h;
                     btn.className = "horario-btn";
 
-                    btn.addEventListener("click", () => {
+                    btn.onclick = () => {
                         document.querySelectorAll(".horario-btn")
                             .forEach(b => b.classList.remove("ativo"));
 
                         btn.classList.add("ativo");
                         horaInput.value = h;
-
                         dadosClienteDiv.style.display = "block";
-                    });
+                    };
 
                     horariosDiv.appendChild(btn);
                 });
             });
     }
-
 });
 
-/* POPUP */
 function abrirPopup() {
     document.getElementById("popup-sucesso").style.display = "flex";
 }
 
 function fecharPopup() {
     document.getElementById("popup-sucesso").style.display = "none";
-    window.location.href = "/";
 }
+
