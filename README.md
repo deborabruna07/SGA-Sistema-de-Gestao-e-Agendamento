@@ -1,46 +1,95 @@
 # SGA – Sistema de Gerenciamento e Agendamento para Salão de Beleza
 
-## 📌 Descrição
-
-O **SGA (Sistema de Gerenciamento e Agendamento para Salão de Beleza)** é uma aplicação web desenvolvida em **Python utilizando o framework Flask**, com o objetivo de automatizar e organizar o agendamento de serviços em um salão de beleza.
-
-O sistema foi projetado para atender **regras de negócio reais**, especialmente serviços que envolvem **tempo ativo e tempo de espera**, como progressiva, selagem e outros procedimentos químicos. Durante o tempo de espera, o sistema permite o **encaixe de outros clientes**, garantindo melhor aproveitamento do tempo da profissional.
+![Python](https://img.shields.io/badge/Python-3.x-blue)
+![Flask](https://img.shields.io/badge/Flask-Web%20Framework-lightgrey)
+![SQLite](https://img.shields.io/badge/SQLite-Database-blue)
+![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
 
 ---
 
-## 🎯 Objetivos do Sistema
+## 📌 Visão Geral
+
+O **SGA (Sistema de Gerenciamento e Agendamento para Salão de Beleza)** é uma aplicação web desenvolvida em **Python com Flask**, criada para resolver um problema real de salões de beleza:
+**organizar agendamentos levando em conta serviços com tempo ativo e tempo de espera**, permitindo encaixes inteligentes e evitando conflitos de horário.
+
+O sistema é **dividido em duas áreas bem definidas**:
+
+* 👤 **Área do Cliente** – focada no agendamento
+* 🛠️ **Área do Administrador** – focada na gestão do sistema
+
+---
+
+## 🎯 Objetivos do Projeto
 
 * Automatizar o processo de agendamento de serviços;
-* Evitar conflitos de horário;
+* Evitar conflitos de horários;
 * Permitir encaixes durante tempos de espera;
-* Facilitar o controle da agenda;
-* Gerar relatórios simples de agendamentos.
+* Melhorar o aproveitamento do tempo da profissional;
+* Facilitar a gestão da agenda do salão;
+* Servir como projeto prático para estudo e portfólio.
 
 ---
 
-## ⚙️ Funcionalidades
+## 🧩 Estrutura do Sistema
+
+### 👤 Área do Cliente
+
+Funcionalidades disponíveis para o cliente:
+
+* Informar o nome;
+* Selecionar o serviço desejado;
+* Escolher a data por meio de um **calendário interativo**;
+* Visualizar apenas **dias disponíveis**;
+* Exibição dinâmica dos **horários disponíveis**;
+* Bloqueio automático de:
+
+  * Dias fechados;
+  * Dias anteriores à data atual;
+  * Horários já ocupados;
+* Feedback visual com mensagens de sucesso ou erro;
+* Interface simples e intuitiva.
+
+---
+
+### 🛠️ Área do Administrador
+
+Funcionalidades exclusivas do administrador:
 
 * Cadastro de serviços com:
 
-  * Tempo ativo inicial;
-  * Tempo de espera;
-  * Tempo ativo final.
-* Agendamento de clientes com validação de conflitos;
-* Bloqueio automático de horários ocupados;
-* Exibição de mensagens de sucesso ou erro;
-* Geração automática de planilha **CSV** com os agendamentos;
-* Persistência de dados com **SQLite**;
-* Interface web simples e funcional.
+  * Tempo ativo inicial (min);
+  * Tempo de espera (min);
+  * Tempo ativo final (min);
+* Visualização completa dos agendamentos;
+* Cancelamento de agendamentos individuais;
+* Ação crítica para **limpar todos os agendamentos** (com alerta);
+* Geração automática de relatório em **CSV**;
+* Persistência dos dados com **SQLite**.
+
+---
+
+## ⚙️ Regras de Negócio Implementadas
+
+* Um serviço pode conter **tempo de espera**, permitindo encaixe de outros clientes;
+* O sistema calcula automaticamente o horário final do serviço;
+* Não permite:
+
+  * Agendar em dias fechados;
+  * Agendar em dias anteriores;
+  * Conflitos de horário;
+* Agenda atualizada dinamicamente conforme os agendamentos.
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-* Python 3
-* Flask
-* SQLite
-* HTML5
-* Git e GitHub
+* **Python 3**
+* **Flask**
+* **SQLite**
+* **HTML5**
+* **CSS3**
+* **JavaScript**
+* **Git & GitHub**
 
 ---
 
@@ -48,12 +97,20 @@ O sistema foi projetado para atender **regras de negócio reais**, especialmente
 
 ```
 sga_salao/
-│ app.py
-│ database.db
-│ agendamentos.csv
-│ .gitignore
+│
+├── app.py
+├── database.db
+├── agendamentos.csv
+├── .gitignore
+│
+├── static/
+│   ├── style.css
+│   ├── admin.css
+│   └── calendar.js
+│
 └── templates/
-    └── index.html
+    ├── index.html        # Área do Cliente
+    └── admin.html        # Área do Administrador
 ```
 
 ---
@@ -74,7 +131,7 @@ python -m venv venv
 venv\Scripts\activate
 ```
 
-### 3️⃣ Instalar dependências
+### 3️⃣ Instalar as dependências
 
 ```bash
 pip install flask
@@ -94,26 +151,33 @@ http://127.0.0.1:5000/
 
 ---
 
-## 🧪 Exemplos de Uso
-
-* Cadastro de um serviço de **Progressiva** com:
-
-  * 60 min de tempo ativo inicial;
-  * 60 min de tempo de espera;
-  * 60 min de tempo ativo final.
-
-* Agendamento permite encaixe de outros serviços durante o tempo de espera.
-
----
-
 ## 📊 Relatórios
 
-O sistema gera automaticamente um arquivo `agendamentos.csv` contendo:
+O sistema gera automaticamente o arquivo **`agendamentos.csv`**, contendo:
 
-* Cliente
+* Nome do cliente
 * Serviço
 * Data
 * Horário de início
-* Horário de fim
+* Horário de término
 * Status do agendamento
 
+---
+
+## 🚧 Status do Projeto
+
+🔧 **Em desenvolvimento**
+
+Próximas melhorias planejadas:
+
+* Autenticação para área administrativa;
+* Edição de serviços cadastrados;
+* Dashboard com métricas;
+* Melhorias de UX/UI;
+* Deploy em ambiente online.
+
+---
+
+## 👨‍💻 Autor
+
+Desenvolvido por **Débora Bruna**
