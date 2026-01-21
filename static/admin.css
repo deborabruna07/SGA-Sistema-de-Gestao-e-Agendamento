@@ -1,133 +1,154 @@
-/* RESET */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* ================================
+   CONFIGURAÇÕES GERAIS
+================================ */
+html, body {
+    min-height: 100%;
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Segoe UI", Arial, sans-serif;
     background: #f4f6f8;
-}
-
-/* CONTAINER */
-.admin-container {
-    max-width: 1100px;
-    margin: 40px auto;
-    padding: 20px;
-}
-
-/* TÍTULOS */
-.admin-container h1 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: #2e2e2e;
-}
-
-.admin-container h2 {
-    margin-bottom: 20px;
+    margin: 0;
+    padding: 0;
     color: #333;
 }
 
-/* CARDS */
+/* ================================
+   CONTAINER ADMIN
+================================ */
+.admin-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.08);
+}
+
+/* ================================
+   TÍTULOS
+================================ */
+.admin-container h1 {
+    text-align: center;
+    font-size: 34px;
+    color: #2e7d32;
+    margin-bottom: 40px;
+}
+
+.admin-container h2 {
+    text-align: center;
+    font-size: 22px;
+    color: #2e7d32;
+    margin-bottom: 25px;
+}
+
+/* ================================
+   CARDS
+================================ */
 .admin-card {
     background: #ffffff;
-    padding: 25px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    padding: 30px;
+    margin-top: 20px;
+    border-radius: 14px;
+    margin-bottom: 35px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 
-/* FORMULÁRIO */
-.admin-form {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
+.admin-card.perigo {
+    border-left: 5px solid #c62828;
+    text-align: center;
+    background: #fff5f5;
 }
 
-.admin-form input {
-    padding: 10px;
-    border-radius: 6px;
+/* ================================
+   FORMULÁRIO SERVIÇO
+================================ */
+.form-servico {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-servico input {
+    padding: 12px 14px;
+    border-radius: 8px;
     border: 1px solid #ccc;
+    font-size: 14px;
 }
 
-/* BOTÕES */
+.form-servico input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76,175,80,.2);
+}
+
+
+/* ================================
+   BOTÕES
+================================ */
 .btn-admin {
-    grid-column: 1 / -1;
-    padding: 12px;
+    padding: 13px 20px;
+    width: 220;
+    margin-top: 20px;
+    align-self: center;
+    border-radius: 10px;
     border: none;
-    border-radius: 6px;
-    background: #4CAF50;
-    color: #fff;
-    font-size: 15px;
     cursor: pointer;
+    font-size: 15px;
+    color: #fff;
+    background: linear-gradient(135deg, #4CAF50, #43a047);
+    transition: all .2s ease;
 }
 
 .btn-admin:hover {
-    background: #43a047;
+    box-shadow: 0 6px 14px rgba(76,175,80,.35);
 }
 
 .btn-danger {
-    background: #e53935;
+    background: linear-gradient(135deg, #e53935, #c62828);
 }
 
 .btn-danger:hover {
-    background: #c62828;
+    box-shadow: 0 6px 14px rgba(229,57,53,.35);
 }
 
-/* TABELA */
+/* ================================
+   TABELAS
+================================ */
 .admin-table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 15px;
 }
 
 .admin-table th {
-    background: #4CAF50;
-    color: white;
+    background: #f1f8f4;
+    color: #2e7d32;
+    font-weight: 600;
     padding: 12px;
+    text-align: center;
+    border-bottom: 2px solid #e0e0e0;
 }
 
 .admin-table td {
-    padding: 10px;
+    padding: 12px;
     text-align: center;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
 }
 
-/* LINKS */
-.link-cancelar {
-    color: #e53935;
-    text-decoration: none;
-    font-weight: bold;
+.admin-table tr:hover {
+    background: #f9fffb;
 }
 
-.link-cancelar:hover {
-    text-decoration: underline;
-}
-
-/* ÁREA DE PERIGO */
-.perigo {
-    border: 2px solid #e53935;
-    background: #fff5f5;
-    text-align: center;
-}
-
-.alerta-admin {
-    color: #b71c1c;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-/* MENSAGEM ADMIN */
-.msg-admin {
-    text-align: center;
-    color: #2e7d32;
-    font-weight: bold;
-    margin-top: 20px;
-}
-
+/* ================================
+   LINKS DE AÇÃO
+================================ */
 .link-remover {
-    color: #e53935;
-    font-weight: bold;
+    color: #c62828;
+    font-weight: 600;
     text-decoration: none;
 }
 
@@ -135,23 +156,55 @@ body {
     text-decoration: underline;
 }
 
-.form-servico {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr; /* nome maior, tempos menores */
-    gap: 10px;
-    max-width: 900px;
-    margin: 0 auto;
+.link-cancelar {
+    color: #e53935;
+    font-weight: 600;
+    text-decoration: none;
 }
 
-.form-servico input {
-    width: 100%;
-    padding: 8px;
+.link-cancelar:hover {
+    text-decoration: underline;
+}
+
+/* ================================
+   ALERTAS
+================================ */
+.alerta-admin {
+    background: #fff3cd;
+    color: #856404;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
     font-size: 14px;
+    border-left: 4px solid #ffb300;
 }
 
-.form-servico button {
-    grid-column: span 4;   /* botão embaixo */
-    max-width: 250px;
-    margin: 10px auto 0;
+/* ================================
+   MENSAGENS FLASH
+================================ */
+.msg-admin {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 500px;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
+/* ================================
+   RESPONSIVO
+================================ */
+@media (max-width: 700px) {
+    .admin-container {
+        padding: 20px;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        font-size: 13px;
+        padding: 10px;
+    }
+}
