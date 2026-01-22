@@ -119,4 +119,3 @@ function abrirPopup() {
 function fecharPopup() {
     document.getElementById("popup-sucesso").style.display = "none";
 }
-
