@@ -5,8 +5,16 @@ import sqlite3
 from datetime import datetime, timedelta
 import csv
 
-app = Flask(__name__)
+import sib_api_v3_sdk
+from sib_api_v3_sdk.api.transactional_emails_api import TransactionalEmailsApi
+from sib_api_v3_sdk.models.send_smtp_email import SendSmtpEmail
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+app = Flask(__name__)
 app.secret_key = "chave-secreta"
 
 # -----------------------
@@ -91,7 +99,7 @@ def gerar_planilha():
         writer = csv.writer(f)
         writer.writerow(["Cliente", "Serviço", "Data", "Início", "Fim", "Status"])
         writer.writerows(dados)
-
+        
 # -----------------------
 # ROTAS
 # -----------------------
@@ -208,6 +216,8 @@ def agendar():
     servico_id = int(request.form["servico"])
     data = request.form["data"]
     hora_inicio = request.form["hora"]
+    email = request.form.get("emailCliente")
+    telefone = request.form.get("telefoneCliente")
 
     conn = conectar_db()
     cursor = conn.cursor()
@@ -247,13 +257,57 @@ def agendar():
             INSERT INTO bloqueios (data, hora_inicio, hora_fim)
             VALUES (?, ?, ?)
         """, (data, inicio_ativo2, fim_ativo2))
+        
+    cursor.execute("SELECT nome FROM servicos WHERE id = ?", (servico_id,))
+    nome_servico = cursor.fetchone()[0]
 
     conn.commit()
     conn.close()
 
     gerar_planilha()
+    
+    # depois de gerar_planilha()
+    try:
+        enviar_email(cliente, email, nome_servico, data, hora_inicio)
+    except Exception as e:
+        print("Erro ao enviar email:", e)
+
     flash("✅ Agendamento confirmado com sucesso!", "sucesso")
     return redirect("/")
+
+def enviar_email(nome, email, servico, data, hora):
+    if not email:
+        return
+
+    configuration = sib_api_v3_sdk.Configuration()
+    configuration.api_key["api-key"] = os.getenv("BREVO_API_KEY")
+
+    api_instance = TransactionalEmailsApi(
+        sib_api_v3_sdk.ApiClient(configuration)
+    )
+
+    email_data = SendSmtpEmail(
+        to=[{"email": email, "name": nome}],
+        sender={
+            "email": "bethsalao.agendamentos@gmail.com",
+            "name": "Beth Salão & Cosmetics"
+        },
+        subject="Agendamento confirmado ✔",
+        html_content=f"""
+            <h3>Olá, {nome}! 💕</h3>
+            <h4>\nSeu agendamento foi confirmado com sucesso. 😉\n</h4>
+            <p><b> 💁‍♀️ Serviço:</b> {servico}</p>
+            <p><b>🗓️ Data:</b> {data}</p>
+            <p><b>\n🕑 Horário:</b> {hora}\n</p>
+            <h5><b>⚠️ Em caso de cancelamento, avisar com 2 dias de antecedência.<b></p>
+        """
+    )
+
+    try:
+        api_instance.send_transac_email(email_data)
+        print("📩 Email enviado com sucesso")
+    except Exception as e:
+        print("❌ Erro ao enviar email:", e)
 
 @app.route("/cancelar/<int:id>")
 def cancelar(id):
