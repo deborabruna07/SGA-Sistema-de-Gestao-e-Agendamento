@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Agendar Horário - Beth Salão{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="text-center mb-4">Sistema de Agendamento</h1>
+    
+    <div class="card shadow border-0 p-4">
+        <h2 class="h4 mb-4">Agendar Serviço</h2>
+
+        <form method="post" action="{{ url_for('main.agendar') }}" class="form-agendamento">
+
+            <input type="hidden" name="data" id="dataSelecionada">
+            <input type="hidden" name="hora" id="horaSelecionada">
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label">Nome do Cliente</label>
+                    <input type="text" name="cliente" class="form-control" placeholder="Digite seu nome" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Serviço</label>
+                    <select name="servico" id="servico" class="form-select" required>
+                        <option value="">Selecione o serviço</option>
+                        {% for s in servicos %}
+                            <option value="{{ s[0] }}">{{ s[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div id="calendario-container" class="mb-4">
+                <h3 class="h5 escolha-data mb-3">Escolha a data</h3>
+                <div id="calendar" class="bg-white p-2 border rounded"></div>
+            </div>
+
+            <div id="horarios-container" style="display:none" class="mb-4">
+                <h3 class="h5">Horários disponíveis</h3>
+                <div id="horarios" class="d-flex flex-wrap gap-2"></div>
+            </div>
+
+            <div id="dados-cliente" style="display:none;" class="dados-cliente bg-light p-3 rounded mb-4">
+                <h3 class="h5">Dados para contato</h3>
+                <div class="row g-2">
+                    <div class="col-md-6">
+                        <input type="tel" id="telefoneCliente" name="telefoneCliente" class="form-control" placeholder="WhatsApp">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="email" id="emailCliente" name="emailCliente" class="form-control" placeholder="E-mail">
+                    </div>
+                </div>
+                <p class="text-muted small mt-2">
+                    Seus dados são usados apenas para contato sobre este agendamento.
+                </p>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg w-100">Confirmar Agendamento</button>
+        </form>
+    </div>
+</div>
+
+<div id="popup-sucesso" class="popup" style="display:none;">
+    <div class="popup-box text-center shadow-lg p-5 bg-white rounded">
+        <div class="display-1 text-success mb-3">✅</div>
+        <h3>Agendamento confirmado!</h3>
+        <p>Seu horário foi agendado com sucesso.</p>
+        <button class="btn btn-success px-5" onclick="fecharPopup()">OK</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/interaction.global.min.js"></script>
+    <script src="{{ url_for('static', filename='calendar.js') }}"></script>
+    
+    <script>
+        // Lógica do Popup que você já tinha
+        function fecharPopup() {
+            document.getElementById('popup-sucesso').style.display = 'none';
+        }
+    </script>
+{% endblock %}
