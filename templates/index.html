@@ -15,13 +15,31 @@
 {% with messages = get_flashed_messages(with_categories=true) %}
 {% if messages %}
     {% for categoria, mensagem in messages %}
-        {% if categoria == 'sucesso' %}
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    abrirPopup();
-                });
-            </script>
-        {% endif %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var texto = "{{ mensagem }}";
+                var categoria = "{{ categoria }}";
+
+                // Atualiza o texto do pop-up
+                document.getElementById("popup-msg").innerText = texto;
+
+                // Configuração para CANCELAMENTO
+                if (categoria === 'cancelado') {
+                    document.getElementById("popup-titulo").innerText = "Cancelamento Confirmado";
+                    document.getElementById("popup-icon").innerText = "🗑️";
+                    document.getElementById("popup-btn").style.background = "#e53935"; // Vermelho
+                } 
+                // Configuração para SUCESSO (Agendamento)
+                else if (categoria === 'sucesso') {
+                    document.getElementById("popup-titulo").innerText = "Agendamento Confirmado!";
+                    document.getElementById("popup-icon").innerText = "✅";
+                    document.getElementById("popup-btn").style.background = "#4CAF50"; // Verde
+                }
+
+                // Abre o popup
+                abrirPopup();
+            });
+        </script>
     {% endfor %}
 {% endif %}
 {% endwith %}
@@ -31,7 +49,6 @@
 
 <form method="post" action="/agendar" class="form-agendamento">
 
-    <!-- CAMPOS OCULTOS -->
     <input type="hidden" name="data" id="dataSelecionada">
     <input type="hidden" name="hora" id="horaSelecionada">
 
@@ -46,24 +63,20 @@
         </select>
     </div>
 
-    <!-- CALENDÁRIO -->
     <div id="calendario-container">
-<h3 class="escolha-data">Escolha a data</h3>
+        <h3 class="escolha-data">Escolha a data</h3>
         <div id="calendar"></div>
     </div>
 
     <div class="legenda-calendario">
-    <span class="legenda fechado"></span>
-</div>
+        <span class="legenda fechado"></span>
+    </div>
 
-
-    <!-- HORÁRIOS -->
     <div id="horarios-container" style="display:none">
         <h3>Horários disponíveis</h3>
         <div id="horarios"></div>
     </div>
 
-    <!-- ✅ DADOS DO CLIENTE (AGORA NO LUGAR CERTO) -->
     <div id="dados-cliente" style="display:none;" class="dados-cliente">
         <h3>Dados para contato</h3>
 
@@ -72,25 +85,63 @@
         <input type="email" id="emailCliente" name="emailCliente" placeholder="E-mail">
 
         <p class="privacidade">
-    Seus dados são usados apenas para contato sobre este agendamento.
-</p>
+            Seus dados são usados apenas para contato sobre este agendamento.
+        </p>
     </div>
 
-    <!-- BOTÃO FINAL -->
     <button type="submit" class="btn-principal">Confirmar</button>
 </form>
 
-</div>
+<div class="meus-agendamentos-container">
+    <h2>Meus Agendamentos</h2>
 
-<script src="{{ url_for('static', filename='calendar.js') }}"></script>
-<div id="popup-sucesso" class="popup">
-    <div class="popup-box">
-        <div class="popup-icon">✅</div>
-        <h3>Agendamento confirmado!</h3>
-        <p>Seu horário foi agendado com sucesso.</p>
-        <button onclick="fecharPopup()">OK</button>
+    <div class="tabela-wrapper">
+        <table class="tabela-cliente">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Serviço</th>
+                    <th>Data</th>
+                    <th>Início</th>
+                    <th>Fim</th>
+                    <th>Status</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in agendamentos %}
+                <tr>
+                    <td>{{ a[1] }}</td> <td>{{ a[2] }}</td> <td>{{ a[3] }}</td> <td>{{ a[4] }}</td> <td>{{ a[5] }}</td> <td>{{ a[6] }}</td> <td>
+                        {% if a[6] == 'Confirmado' %}
+                            <a href="/cancelar/{{ a[0] }}" class="btn-cancelar-link" onclick="return confirm('Tem certeza que deseja cancelar este agendamento?')">Cancelar</a>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                
+                {% if not agendamentos %}
+                <tr>
+                    <td colspan="7">Nenhum agendamento encontrado.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
     </div>
 </div>
+
+</div> <script src="{{ url_for('static', filename='calendar.js') }}"></script>
+
+<div id="popup-sucesso" class="popup">
+    <div class="popup-box">
+        <div id="popup-icon" class="popup-icon">✅</div>
+        <h3 id="popup-titulo">Agendamento confirmado!</h3>
+        <p id="popup-msg">Seu horário foi agendado com sucesso.</p>
+        <button id="popup-btn" onclick="fecharPopup()">OK</button>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/interaction.global.min.js"></script>
 
