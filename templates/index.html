@@ -84,9 +84,15 @@
         <input type="tel" id="telefoneCliente" name="telefoneCliente" placeholder="WhatsApp (ex: 55 83 9 9999-9999)">
         <input type="email" id="emailCliente" name="emailCliente" placeholder="E-mail">
 
+        <input type="email" id="emailCliente" name="emailCliente" placeholder="E-mail">
+
         <p class="privacidade">
             Seus dados são usados apenas para contato sobre este agendamento.
         </p>
+    </div>
+
+    <div class="perfil-resumo-agendamento" style="text-align: center; margin-top: 20px; padding: 10px; background-color: #f1f8f4; border-radius: 8px;">
+        <p>Perfil de cabelo identificado: <strong style="color: #2e7d32;">{{ session.get('perfil_cabelo', 'Não identificado') }}</strong></p>
     </div>
 
     <button type="submit" class="btn-principal">Confirmar</button>

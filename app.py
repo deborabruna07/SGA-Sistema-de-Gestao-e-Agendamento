@@ -7,6 +7,7 @@ from sib_api_v3_sdk.api.transactional_emails_api import TransactionalEmailsApi
 from sib_api_v3_sdk.models.send_smtp_email import SendSmtpEmail
 import os
 from dotenv import load_dotenv
+from flask import session
 
 load_dotenv()
 
@@ -154,7 +155,7 @@ def enviar_email_cancelamento(nome, email, servico, data, hora):
     email_data = SendSmtpEmail(
         to=[{"email": email, "name": nome}],
         sender={
-            "email": "bethsalao.agendamentos@gmail.com", # Ajuste se necessário
+            "email": "bethsalao.agendamentos@gmail.com",
             "name": "Beth Salão & Cosmetics"
         },
         subject="Agendamento Cancelado ❌",
@@ -212,6 +213,16 @@ def index():
         servicos=servicos,
         agendamentos=agendamentos,
     )
+    
+@app.route("/triagem")
+def triagem():
+    return render_template("triagem.html")
+
+@app.route("/salvar-perfil", methods=["POST"])
+def salvar_perfil():
+    dados = request.get_json()
+    session['perfil_cabelo'] = dados.get('perfil')
+    return jsonify(sucesso=True)
     
 @app.route("/admin")
 def admin():
@@ -550,4 +561,4 @@ def excluir_servico(id):
 # -----------------------
 if __name__ == "__main__":
     criar_tabelas()
-    app.run(debug=True)
+app.run(debug=True, port=5001)

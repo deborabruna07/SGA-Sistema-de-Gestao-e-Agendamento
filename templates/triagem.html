@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triagem de Cabelo - Beth Salão</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container triagem-container">
+    <h1>Análise de Perfil</h1>
+    <h2>Identifique seu tipo de cabelo</h2>
+
+    <div id="passo-textura" class="passo-triagem">
+        <h3>1. Qual seu tipo de cabelo?</h3>
+        <div class="opcoes-grid">
+            <div class="opcao" onclick="selecionarTextura('liso')">
+                <img src="/static/img/cabelo-liso.png" alt="Cabelo Liso">
+                <span>Liso</span>
+            </div>
+            <div class="opcao" onclick="selecionarTextura('ondulado')">
+                <img src="/static/img/cabelo-ondulado.png" alt="Cabelo Ondulado">
+                <span>Ondulado</span>
+            </div>
+            <div class="opcao" onclick="selecionarTextura('cacheado')">
+                <img src="/static/img/cabelo-cacheado.png" alt="Cabelo Cacheado">
+                <span>Cacheado</span>
+            </div>
+            <div class="opcao" onclick="selecionarTextura('crespo')">
+                <img src="/static/img/cabelo-crespo.png" alt="Cabelo Crespo">
+                <span>Crespo</span>
+            </div>
+            </div>
+    </div>
+
+    <div id="passo-tamanho" class="passo-triagem" style="display:none;">
+        <h3>2. Qual o tamanho do seu cabelo?</h3>
+        <div id="grid-tamanho" class="opcoes-grid">
+            </div>
+    </div>
+
+    <div id="passo-volume" class="passo-triagem" style="display:none;">
+        <h3>3. Qual o volume do seu cabelo?</h3>
+        <div id="grid-volume" class="opcoes-grid">
+            </div>
+    </div>
+
+    <div id="resultado-triagem" style="display:none;">
+        <div class="resumo-box">
+            <h3>Resultado da Análise</h3>
+            <p>Seu perfil: <span id="perfil-texto"></span></p>
+            <a href="/" id="btn-ir-agendamento" class="btn-principal">Seguir para Agendamento</a>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='triagem.js') }}"></script>
+
+</body>
+</html>
